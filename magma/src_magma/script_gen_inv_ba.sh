@@ -2,16 +2,16 @@
 
 # Script generating files containing primary and secondary invariants for a given group
 
-# -------------------------------------------
-# Parameters
-# -------------------------------------------
-GROUP_DEF="PermutationGroup<10 | (2,3)(5,6)(10,9), (2,3,4)(5,6,7)(8,10,9), (1,3,4,2)(5,6,10,9)(7,8)>"
-GROUP_NAME="BA_5B"
-
-PREFSEC="SEC" #prefix for the secondary invariants
-PREFIRRSEC="IS" #prefix for the irreducible secondary invariants
-
-MAGMA_RUN=1
+# # -------------------------------------------
+# # Parameters (to be set in the parameters.conf file)
+# # -------------------------------------------
+# GROUP_DEF="PermutationGroup<10 | (2,3)(5,6)(10,9), (2,3,4)(5,6,7)(8,10,9), (1,3,4,2)(5,6,10,9)(7,8)>"
+# GROUP_NAME="BA_5B"
+#
+# PREFSEC="SEC" #prefix for the secondary invariants
+# PREFIRRSEC="IS" #prefix for the irreducible secondary invariants
+#
+# MAGMA_RUN=1
 
 #------------------------------------------------------------
 #Move files in data folder and delete useless files
@@ -49,11 +49,11 @@ ECHO $GROUP_DEF
 sed -i -e "s/GROUP_DEF/$GROUP_DEF/g" magma_run.m;
 
 #connect to galois and copy the input files
-# scp pack_opt_primaries.m dusson@galois.warwick.ac.uk: ;
-scp magma_run.m dusson@galois.warwick.ac.uk: ;
+# scp pack_opt_primaries.m $SSH_ADDRESS: ;
+scp magma_run.m $SSH_ADDRESS: ;
 
 #run the magma computation
-ssh dusson@galois.warwick.ac.uk << EOF
+ssh $SSH_ADDRESS << EOF
 magma magma_run.m
 EOF
 
@@ -61,7 +61,7 @@ EOF
 rm magma_run.m;
 
 #copy the output on the local machine
-scp dusson@galois.warwick.ac.uk:logNbody_output.txt .;
+scp $SSH_ADDRESS:logNbody_output.txt .;
 
 # change the name of the output file
 mv logNbody_output.txt $filename_log
