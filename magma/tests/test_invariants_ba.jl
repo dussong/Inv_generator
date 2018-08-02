@@ -1,15 +1,16 @@
 using JuLIP, Base.Test, StaticArrays, ForwardDiff, Combinatorics
 using BenchmarkTools
 
+# Check that group name and variables ok. Modify accordingly the line 16.
 GROUP_NAME="BA_5B"
 OUTPUT_DIR="../data/"
-dim=10
+const dim=10
 
 include(homedir()*"/.julia/v0.6/NBodyIPs/src/fastpolys.jl")
 using FastPolys
 
 include(OUTPUT_DIR*GROUP_NAME*"/"GROUP_NAME*"_non_efficient_invariants.jl")
-include(OUTPUT_DIR*GROUP_NAME*"/"GROUP_NAME*"_invariants.jl")
+include(OUTPUT_DIR*GROUP_NAME*"/"GROUP_NAME*"_invariants_hack.jl")
 # include(OUTPUT_DIR*GROUP_NAME*"/"GROUP_NAME*"_group_elements.jl")
 
 using BA_5B: invariants, invariants_d, invariants_ed, simplex_permutations
@@ -24,8 +25,6 @@ println("-------------------------------------------")
 println("   Testing implementation of `invariants`")
 println("-------------------------------------------")
 
-# TODO: test correctness of the invariants implementation
-#       against the MAGMA output
 
 println("[1] Correctness of gradients")
 r = 1.0 + SVector(rand(dim)...)
