@@ -120,7 +120,7 @@ echo "v=zeros($NBsec"",1);" | cat - $fn_jl_check > /tmp/tempfile && mv /tmp/temp
 echo "" | cat - $fn_jl_check > /tmp/tempfile && mv /tmp/tempfile $fn_jl_check
 echo "pv=zeros($NBirrsec"",1);" | cat - $fn_jl_check > /tmp/tempfile && mv /tmp/tempfile $fn_jl_check
 echo "prim=zeros($NBprimaries"",1);" | cat - $fn_jl_check > /tmp/tempfile && mv /tmp/tempfile $fn_jl_check
-echo "function invariants_$GROUP_NAME""_check(x)" | cat - $fn_jl_check > /tmp/tempfile && mv /tmp/tempfile $fn_jl_check
+echo "function invariants_check(x)" | cat - $fn_jl_check > /tmp/tempfile && mv /tmp/tempfile $fn_jl_check
 
 
 echo "return prim, v, pv"  >> $fn_jl_check

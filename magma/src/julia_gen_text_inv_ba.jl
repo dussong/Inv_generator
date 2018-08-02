@@ -203,6 +203,10 @@ open(file, "w") do f
     # write(f, degree_inv)
     # write(f, "\n\n")
 
+    # write the definition for simplex permutation
+    sim_perm = open(io->read(io), OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_group_elements.jl")
+    write(f, sim_perm)
+
     # write the definition of the constant vectors
     prim1 = open(io->read(io), filenameprim*"1.jl")
     # read(filenameprim1)
@@ -223,7 +227,7 @@ open(file, "w") do f
     write(f, "\n\n")
 
     # write the name of the function
-    write(f, "function invariants_gen(x1::SVector{$NBprim, T}) where {T}\n")
+    write(f, "function invariants(x1::SVector{$NBprim, T}) where {T}\n")
 
     # write the precomputed powers of x
     for i=2:max(max_exp_irrsec,max_exp_prim)
@@ -281,7 +285,7 @@ open(file, "w") do f
     #
     # -------------------------------------------
     write(f, "\n\n\n\n")
-    write(f, "function invariants_d_gen(x1::SVector{$NBprim, T}) where {T}\n")
+    write(f, "function invariants_d(x1::SVector{$NBprim, T}) where {T}\n")
     for i=2:max(max_exp_irrsec,max_exp_prim)
         im = i-1;
         write(f, "   x$i = x$im.*x1 \n")
@@ -345,7 +349,7 @@ open(file, "w") do f
 #
 # -------------------------------------------
     write(f, "\n\n\n\n")
-    write(f, "function invariants_ed_gen(x1::SVector{$NBprim, T}) where {T}\n")
+    write(f, "function invariants_ed(x1::SVector{$NBprim, T}) where {T}\n")
     for i=2:max(max_exp_irrsec,max_exp_prim)
         im = i-1;
         write(f, "   x$i = x$im.*x1 \n")
