@@ -3,14 +3,13 @@ using Combinatorics, StaticArrays, Calculus
 include("invariants_generator_ba.jl")
 
 
-# Parameters (given in the parameters.conf file)
-GROUP_NAME="BA_5B"
-prefsec="SEC" #prefix for the secondaries
-prefirrsec="IS" #prefix for the irreducible secondaries
-prefprim="P" #prefix for the primaries
-OUTPUT_DIR="../data/"
+# # Parameters (given in the parameters.conf file)
+# GROUP_NAME="BA_5B"
+# prefsec="SEC" #prefix for the secondaries
+# prefirrsec="IS" #prefix for the irreducible secondaries
+# prefprim="P" #prefix for the primaries
+# OUTPUT_DIR="../data/"
 
-#TODO: include degrees of invariants
 # --------------
 
 include(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_prim_invariants.jl")
