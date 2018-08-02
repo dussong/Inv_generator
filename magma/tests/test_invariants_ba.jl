@@ -85,14 +85,10 @@ println()
 println("[4] comparison with non-efficient implementation")
 for n = 1:3
    r = 1.0 + SVector(rand(dim)...)
-   I = all_invariants(r)
-   for rπ in simplex_permutations(r)
-      @test I ≈ all_invariants(SVector(rπ...))
-   end
+   Iprim, Isec = invariants(r)
+   Iprimcheck, Iseccheck, ~ = invariants_check(r)
+   @test Iprim ≈ SVector(Iprimcheck...)
+   @test Isec ≈ SVector(Iseccheck...)
    print(".")
 end
 println()
-
-(Primary_slow, Sec_slow, Irr_sec_slow) = invariants_check(x)
-(Primary_fast,Sec_fast) = invariants_gen(x)
-(Primary_fast2,Sec_fast2,Prim_d,Sec_d) = invariants_ed_gen(x)
