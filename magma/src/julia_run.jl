@@ -1,14 +1,25 @@
+# -------------------------------------------
+# Parameters
+# -------------------------------------------
+SSH_ADDRESS="dusson@galois.warwick.ac.uk" #where to find magma
+MAGMA_RUN=0 #perform the magma computation or not
+
+GROUP_DEF="PermutationGroup<10 | (2,3)(5,6)(10,9), (2,3,4)(5,6,7)(8,10,9), (1,3,4,2)(5,6,10,9)(7,8)>" #group definition (magma syntax)
+GROUP_NAME="BA_5B" #name for the group (gives the name of the folder to find the invariants)
+
+prefsec="SEC" #prefix for the secondaries
+prefirrsec="IS" #prefix for the irreducible secondaries
+prefprim="P" #prefix for the primaries
 using Combinatorics, StaticArrays, Calculus
 
 include("invariants_generator_ba.jl")
 
 
-# Parameters
-#TODO: check that prefix are the same as the ones in generate_invariants.sh
-GROUP_NAME="BA_5B"
-prefsec = "SEC" #prefix for the secondaries
-prefirrsec = "IS" #prefix for the irreducible secondaries
-prefprim = "P" #prefix for the primaries
+# # Parameters (given in the parameters.conf file)
+# GROUP_NAME="BA_5B"
+# prefsec = "SEC" #prefix for the secondaries
+# prefirrsec = "IS" #prefix for the irreducible secondaries
+# prefprim = "P" #prefix for the primaries
 
 #TODO: include degrees of invariants
 # --------------

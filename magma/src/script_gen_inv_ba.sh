@@ -8,8 +8,8 @@
 # GROUP_DEF="PermutationGroup<10 | (2,3)(5,6)(10,9), (2,3,4)(5,6,7)(8,10,9), (1,3,4,2)(5,6,10,9)(7,8)>"
 # GROUP_NAME="BA_5B"
 #
-# PREFSEC="SEC" #prefix for the secondary invariants
-# PREFIRRSEC="IS" #prefix for the irreducible secondary invariants
+# prefsec="SEC" #prefix for the secondary invariants
+# prefirrsec="IS" #prefix for the irreducible secondary invariants
 #
 # MAGMA_RUN=1
 
@@ -183,8 +183,8 @@ echo "generating file with relations between secondaries and irreducible seconda
 
 cp $filename_log $fn_jl_sec_rel_inv
 gsed -i '0,/^inv_relations_begin/d;/^inv_relations_end/,$d' $fn_jl_sec_rel_inv
-sed -i '' "s/h/$PREFIRRSEC/g" $fn_jl_sec_rel_inv
-sed -i '' "s/v\[/$PREFSEC/g" $fn_jl_sec_rel_inv
+sed -i '' "s/h/$prefirrsec/g" $fn_jl_sec_rel_inv
+sed -i '' "s/v\[/$prefsec/g" $fn_jl_sec_rel_inv
 sed -i '' "s/\]/ /g" $fn_jl_sec_rel_inv
 
 #------------------------------------------------------------
