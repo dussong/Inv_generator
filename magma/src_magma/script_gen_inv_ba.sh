@@ -42,23 +42,23 @@ ECHO $fn_jl_group_elts
 if [ $MAGMA_RUN -eq 1 ]
 then
 #put the paramters into the input file
-cp Nbody_inv_auto_generation_ba.m Nbody_run.m;
+cp magma_gen_inv_ba.m magma_run.m;
 
 ECHO $GROUP_DEF
 
-sed -i -e "s/GROUP_DEF/$GROUP_DEF/g" Nbody_run.m;
+sed -i -e "s/GROUP_DEF/$GROUP_DEF/g" magma_run.m;
 
 #connect to galois and copy the input files
 # scp pack_opt_primaries.m dusson@galois.warwick.ac.uk: ;
-scp Nbody_run.m dusson@galois.warwick.ac.uk: ;
+scp magma_run.m dusson@galois.warwick.ac.uk: ;
 
 #run the magma computation
 ssh dusson@galois.warwick.ac.uk << EOF
-magma Nbody_run.m
+magma magma_run.m
 EOF
 
 #remove now useless file
-rm Nbody_run.m;
+rm magma_run.m;
 
 #copy the output on the local machine
 scp dusson@galois.warwick.ac.uk:logNbody_output.txt .;
@@ -67,7 +67,7 @@ scp dusson@galois.warwick.ac.uk:logNbody_output.txt .;
 mv logNbody_output.txt $filename_log
 
 #Remove useless file
-rm NBody_run.m-e
+rm magma_run.m-e
 fi
 
 
