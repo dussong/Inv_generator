@@ -9,7 +9,6 @@ cat generate_text_invariants_ba.jl >> julia_run.jl
 
 echo "julia run"
 
-julia
-# julia_run.jl > logjl
+julia julia_run.jl > logjl
 
-# rm julia_run.jl
+rm julia_run.jl

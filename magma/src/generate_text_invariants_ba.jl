@@ -8,27 +8,27 @@ GROUP_NAME="BA_5B"
 prefsec="SEC" #prefix for the secondaries
 prefirrsec="IS" #prefix for the irreducible secondaries
 prefprim="P" #prefix for the primaries
-OUTPUT_DIR="../data"
+OUTPUT_DIR="../data/"
 
 #TODO: include degrees of invariants
 # --------------
 
-include(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_prim_invariants.jl")
-include(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_irr_invariants.jl")
-include(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_group_elements.jl")
+include(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_prim_invariants.jl")
+include(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_irr_invariants.jl")
+include(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_group_elements.jl")
 # -------------------------------------------
 #
 # Generate irreducible secondaries
 #
 # -------------------------------------------
-filenameirrsec = homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text";
+filenameirrsec = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text";
 
 # -------------------------------------------
 #
 # Define data files
 #
 # -------------------------------------------
-filenameirrsecdata = homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_irr_invariants.jl";
+filenameirrsecdata = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_irr_invariants.jl";
 preword = "# Irreducible secondaries for group "*GROUP_NAME*"\n"
 
 max_exp_irrsec = generate_invariants(filenameirrsecdata,filenameirrsec,preword,prefirrsec,pv)
@@ -40,8 +40,8 @@ NBirrsec = length(pv)
 # Generate primary invariants files
 #
 # -------------------------------------------
-filenameprim = homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_prim_text";
-filenameprimdata = homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_prim_invariants.jl";
+filenameprim = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_prim_text";
+filenameprimdata = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_prim_invariants.jl";
 preword = "# Primary invariants for "*GROUP_NAME*"  \n"
 
 max_exp_prim = generate_invariants(filenameprimdata,filenameprim,preword,prefprim,prim)
@@ -53,13 +53,13 @@ NBprim = length(prim)
 # Secondary invariants (relations with irreducible secondaries)
 #
 # -------------------------------------------
-filenamesec = homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_relations_invariants.jl";
+filenamesec = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_relations_invariants.jl";
 # -------------------------------------------
 #
 # Derivatives of secondary invariants (relations with irreducible secondaries)
 #
 # -------------------------------------------
-filenamesec_d = homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_relations_invariants_derivatives.jl";
+filenamesec_d = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_relations_invariants_derivatives.jl";
 
 open(filenamesec_d, "w") do f
 end
@@ -189,7 +189,7 @@ end
 # Generate function with all invariants
 #
 # -------------------------------------------
-file = homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_invariants.jl";
+file = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_invariants.jl";
 
 open(file, "w") do f
     write(f, "module NB5I \n\n")
@@ -416,15 +416,15 @@ end
 
 
 #Remove the temporary files
-rm(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text1.jl");
-rm(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text2.jl");
-rm(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text3.jl");
-rm(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text4.jl");
-rm(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text5.jl");
+rm(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text1.jl");
+rm(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text2.jl");
+rm(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text3.jl");
+rm(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text4.jl");
+rm(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text5.jl");
 
-rm(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_prim_text1.jl");
-rm(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_prim_text2.jl");
-rm(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_prim_text3.jl");
-rm(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_prim_text4.jl");
-rm(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_prim_text5.jl");
-# rm(homedir() * "/.julia/v0.6/NBodyIPs/magma/data/"*GROUP_NAME*"/"*GROUP_NAME*"_text_deg.jl");
+rm(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_prim_text1.jl");
+rm(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_prim_text2.jl");
+rm(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_prim_text3.jl");
+rm(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_prim_text4.jl");
+rm(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_prim_text5.jl");
+# rm(OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_text_deg.jl");
