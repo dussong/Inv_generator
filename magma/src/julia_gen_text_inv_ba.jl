@@ -31,7 +31,7 @@ filenameirrsec = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_irr_sec_text";
 filenameirrsecdata = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_irr_invariants.jl";
 preword = "# Irreducible secondaries for group "*GROUP_NAME*"\n"
 
-max_exp_irrsec = generate_invariants(filenameirrsecdata,filenameirrsec,preword,prefirrsec,pv)
+max_exp_irrsec = generate_invariants(filenameirrsecdata,filenameirrsec,preword,prefirrsec,pv,GROUP_NAME)
 
 #Nb of irreducible secondary invariants
 NBirrsec = length(pv)
@@ -44,7 +44,7 @@ filenameprim = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_prim_text";
 filenameprimdata = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_prim_invariants.jl";
 preword = "# Primary invariants for "*GROUP_NAME*"  \n"
 
-max_exp_prim = generate_invariants(filenameprimdata,filenameprim,preword,prefprim,prim)
+max_exp_prim = generate_invariants(filenameprimdata,filenameprim,preword,prefprim,prim,GROUP_NAME)
 
 #Nb of primary invariants
 NBprim = length(prim)
@@ -192,7 +192,7 @@ end
 file = OUTPUT_DIR*GROUP_NAME*"/"*GROUP_NAME*"_invariants.jl";
 
 open(file, "w") do f
-    write(f, "module NB5I \n\n")
+    write(f, "module ", GROUP_NAME, " \n\n")
     write(f, "using NBodyIPs.FastPolys \n")
     write(f, "using StaticArrays \n")
     write(f, "using BenchmarkTools: @btime \n\n")

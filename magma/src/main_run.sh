@@ -9,6 +9,6 @@ cat julia_gen_text_inv_ba.jl >> julia_run.jl
 
 echo "julia run"
 
-julia julia_run.jl > logjl
+julia julia_run.jl
 
 rm julia_run.jl

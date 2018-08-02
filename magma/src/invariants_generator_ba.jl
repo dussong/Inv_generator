@@ -31,7 +31,7 @@ end
 
 
 
-function vec_exp_2_file(filename,exponent,Vec_ind,prefix,number)
+function vec_exp_2_file(filename,exponent,Vec_ind,prefix,number,group_name)
    filename1,filename2,filename3,filename4,filename5 = generate_filename(filename)
    # generate different files with parts of the invariants in them.
    nb_vec = size(Vec_ind,2);
@@ -66,7 +66,7 @@ function vec_exp_2_file(filename,exponent,Vec_ind,prefix,number)
           expi = exponent[i];
           write(f, "x$expi,")
        end
-       write(f, ") , NB5I.", prefix, "$number", ") \n")
+       write(f, ") , ",group_name,".", prefix, "$number", ") \n")
     end
     open(filename4, "a") do f
        write(f, "d", prefix,  "$number", " = fpoly_d((")
@@ -79,7 +79,7 @@ function vec_exp_2_file(filename,exponent,Vec_ind,prefix,number)
           expi = exponent[i];
           write(f, "dx$expi,")
        end
-       write(f, ") , NB5I.", prefix, "$number", ") \n")
+       write(f, ") , ",group_name,".", prefix, "$number", ") \n")
     end
     open(filename5, "a") do f
       write(f, prefix,  "$number", ", d", prefix,  "$number", " = fpoly_ed((")
@@ -92,20 +92,20 @@ function vec_exp_2_file(filename,exponent,Vec_ind,prefix,number)
           expi = exponent[i];
           write(f, "dx$expi,")
       end
-      write(f, ") , NB5I.", prefix, "$number", ") \n")
+      write(f, ") , ",group_name,".", prefix, "$number", ") \n")
     end
 end
 
 
-function monomial_2_file(filename,monomial,prefix,number)
+function monomial_2_file(filename,monomial,prefix,number,group_name)
    # writing in the different files for one given monomial
    exponent, Vec_ind = monomial_2_vec_exp(monomial)
-   vec_exp_2_file(filename,exponent,Vec_ind,prefix,number)
+   vec_exp_2_file(filename,exponent,Vec_ind,prefix,number,group_name)
    return exponent
 end
 
 
-function generate_invariants(filenamedata,filename,preword,prefix,Monomials)
+function generate_invariants(filenamedata,filename,preword,prefix,Monomials,group_name)
    # writing in the different files for a vector of monomials
    filename1,filename2,filename3,filename4,filename5 = generate_filename(filename)
 
@@ -129,7 +129,7 @@ function generate_invariants(filenamedata,filename,preword,prefix,Monomials)
     end
     for j=1:NB_inv
        monomial = SVector(Monomials[j]...);
-       exponent = monomial_2_file(filename,monomial,prefix,j)
+       exponent = monomial_2_file(filename,monomial,prefix,j,group_name)
        max_exp_temp = maximum(exponent)
        if max_exp_temp > max_exp
           max_exp = max_exp_temp
