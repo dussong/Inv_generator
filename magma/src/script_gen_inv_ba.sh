@@ -26,6 +26,7 @@ fn_jl_irr_inv="../data/$GROUP_NAME/$GROUP_NAME""_irr_invariants.jl"
 fn_jl_prim_inv="../data/$GROUP_NAME/$GROUP_NAME""_prim_invariants.jl"
 fn_jl_sec_rel_inv="../data/$GROUP_NAME/$GROUP_NAME""_relations_invariants.jl"
 fn_jl_group_elts="../data/$GROUP_NAME/$GROUP_NAME""_group_elements.jl"
+fn_jl_deg="../data/$GROUP_NAME/$GROUP_NAME""_degrees.jl"
 
 ECHO Output files:
 
@@ -102,6 +103,21 @@ ECHO "Degrees of irreducible secondaries="$Degirrsec
 #get degrees of secondaries
 Degsec=$(gsed '0,/^degrees_secondaries_begin/d;/^degrees_secondaries_end/,$d' $filename_log)
 ECHO "Degrees of secondaries="$Degsec
+
+#------------------------------------------------------------
+#Generate a file with degrees for primaries, secondaries, and irreducible secondaries
+#------------------------------------------------------------
+echo "generating file with degrees"
+
+cp $filename_log $fn_jl_deg
+gsed -i '0,/^/d;/^/,$d' $fn_jl_deg
+
+echo "const irrsec_deg = $Degirrsec" | cat - $fn_jl_deg > temp && mv temp $fn_jl_deg
+
+echo "const secondaries_deg = $Degsec" | cat - $fn_jl_deg > temp && mv temp $fn_jl_deg
+
+echo "const primaries_deg = $Degprimaries" | cat - $fn_jl_deg > temp && mv temp $fn_jl_deg
+
 
 
 #------------------------------------------------------------
