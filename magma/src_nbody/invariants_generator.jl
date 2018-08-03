@@ -1,8 +1,8 @@
 using Combinatorics, StaticArrays
-include("misc.jl")
+# include("misc.jl")
 
 
-function generate_monomials(filename,NBlengths,Deg=10)
+function generate_monomials(filename,NBlengths,Deg)
    #generate leading monomials as a tuple from a choosen file
    # Deg is the max. degree
     NB_inv = countlines(filename); #nb of invariants

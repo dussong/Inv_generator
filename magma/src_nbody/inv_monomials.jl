@@ -1,6 +1,6 @@
 using Combinatorics, StaticArrays
 # , NBodyIPs
-include("../../src/misc.jl")
+# include(homedir() * "/.julia/v0.6/NBodyIPs/src/misc.jl")
 include("invariants_generator.jl")
 # include("../../src/polynomials.jl")
 

@@ -1,29 +1,31 @@
 #!/bin/bash
 
-# Script generating files containing primary and secondary invariants for N-body terms up to a given degree
+# Script generating files containing primary and secondary invariants for N-body terms up to a given DEGREE
 
-# -------------------------------------------
-# Paramters
-# -------------------------------------------
-NBODY=5
-DEGREE=15 #maximal polynomial degree
-
-PREFSEC="SEC" #prefix for the secondary invariants
-PREFIRRSEC="IS" #prefix for the irreducible secondary invariants
+# # -------------------------------------------
+# # Paramters
+# # -------------------------------------------
+# NBODY=5
+# DEGREE=9 #maximal polynomial DEGREE
+#
+# PREFSEC="SEC" #prefix for the secondary invariants
+# PREFIRRSEC="IS" #prefix for the irreducible secondary invariants
 
 NBlengths=$((($NBODY*($NBODY-1))/2))
 
 # printing the parameters
-ECHO Nbody order= $NBODY
+ECHO NBODY order= $NBODY
 ECHO Nb of lengths= $NBlengths
-ECHO Polynomial degree= $DEGREE
+ECHO Polynomial DEGREE= $DEGREE
 
 #Define the file names used later and print out their names
-filename_log="NB_$NBODY""_deg_$DEGREE""_log.txt"
-fn_jl_check="NB_$NBODY""_deg_$DEGREE""_non_efficient_invariants.jl"
-fn_jl_irr_inv="NB_$NBODY""_deg_$DEGREE""_irr_invariants.jl"
-fn_jl_prim_inv="NB_$NBODY""_deg_$DEGREE""_prim_invariants.jl"
-fn_jl_sec_rel_inv="NB_$NBODY""_deg_$DEGREE""_relations_invariants.jl"
+mkdir -p "$OUTPUT_DIR"NB_$NBODY""_deg_$DEGREE
+
+filename_log=$OUTPUT_DIR"NB_$NBODY""_deg_$DEGREE/NB_$NBODY""_deg_$DEGREE""_log.txt"
+fn_jl_check=$OUTPUT_DIR"NB_$NBODY""_deg_$DEGREE/NB_$NBODY""_deg_$DEGREE""_non_efficient_invariants.jl"
+fn_jl_irr_inv=$OUTPUT_DIR"NB_$NBODY""_deg_$DEGREE/NB_$NBODY""_deg_$DEGREE""_irr_invariants.jl"
+fn_jl_prim_inv=$OUTPUT_DIR"NB_$NBODY""_deg_$DEGREE/NB_$NBODY""_deg_$DEGREE""_prim_invariants.jl"
+fn_jl_sec_rel_inv=$OUTPUT_DIR"NB_$NBODY""_deg_$DEGREE/NB_$NBODY""_deg_$DEGREE""_relations_invariants.jl"
 
 ECHO Output files:
 
@@ -37,29 +39,32 @@ ECHO $fn_jl_sec_rel_inv
 # -------------------------------------------
 # Magma part
 # -------------------------------------------
+if [ $MAGMA_RUN -eq 1 ]
+then
 #put the paramters into the input file
-cp Nbody_inv_auto_generation.m Nbody_run.m;
+cp magma_gen_inv_NBODY.m NBODY_run.m;
 
-sed -i -e "s/DEGREE/$DEGREE/g" Nbody_run.m;
-sed -i -e "s/NBODY/$NBODY/g" Nbody_run.m;
+sed -i -e "s/DEGREE/$DEGREE/g" NBODY_run.m;
+sed -i -e "s/NBODY/$NBODY/g" NBODY_run.m;
 
 #connect to galois and copy the input files
-scp pack_opt_primaries.m dusson@galois.warwick.ac.uk: ;
-scp Nbody_run.m dusson@galois.warwick.ac.uk: ;
+scp pack_opt_primaries.m $SSH_ADDRESS: ;
+scp NBODY_run.m $SSH_ADDRESS: ;
 
 #run the magma computation
-ssh dusson@galois.warwick.ac.uk << EOF
-magma Nbody_run.m
+ssh $SSH_ADDRESS << EOF
+magma NBODY_run.m
 EOF
 
 #remove now useless file
-rm Nbody_run.m;
+rm NBODY_run.m;
 
 #copy the output on the local machine
-scp dusson@galois.warwick.ac.uk:logNbody_output.txt .;
+scp $SSH_ADDRESS:logNbody_output.txt .;
 
 # change the name of the output file
 mv logNbody_output.txt $filename_log
+fi
 
 # Generate julia file with function computing primary and secondary invariants (not efficient but hopefully correct)
 # Pick lines with primaries, irreducible secondaries and secondaries
@@ -113,7 +118,7 @@ echo "v=zeros($NBsecondaries"",1);" | cat - $fn_jl_check > /tmp/tempfile && mv /
 echo "" | cat - $fn_jl_check > /tmp/tempfile && mv /tmp/tempfile $fn_jl_check
 echo "pv=zeros($NBirr_sec"",1);" | cat - $fn_jl_check > /tmp/tempfile && mv /tmp/tempfile $fn_jl_check
 echo "prim=zeros($NBlengths"",1);" | cat - $fn_jl_check > /tmp/tempfile && mv /tmp/tempfile $fn_jl_check
-echo "function invariants_Q$NBlengths""_check(x)" | cat - $fn_jl_check > /tmp/tempfile && mv /tmp/tempfile $fn_jl_check
+echo "function invariants_check(x)" | cat - $fn_jl_check > /tmp/tempfile && mv /tmp/tempfile $fn_jl_check
 
 
 echo "return prim, v, pv"  >> $fn_jl_check
@@ -143,14 +148,6 @@ sed -i '' "s/\]/ /g" $fn_jl_sec_rel_inv
 # ---------------------------------------------------------
 gsed -i '$!N;s/\n\s*+/ +/;P;D' $fn_jl_check
 
-#move all files to the data folder
-mkdir -p ../data/NB_$NBODY""_deg_$DEGREE
-
-mv $filename_log ../data/NB_$NBODY""_deg_$DEGREE/$filename_log
-mv $fn_jl_check ../data/NB_$NBODY""_deg_$DEGREE/$fn_jl_check
-mv $fn_jl_irr_inv ../data/NB_$NBODY""_deg_$DEGREE/$fn_jl_irr_inv
-mv $fn_jl_prim_inv ../data/NB_$NBODY""_deg_$DEGREE/$fn_jl_prim_inv
-mv $fn_jl_sec_rel_inv ../data/NB_$NBODY""_deg_$DEGREE/$fn_jl_sec_rel_inv
 
 #remove useless file
-rm NBody_run.m-e
+rm NBODY_run.m-e

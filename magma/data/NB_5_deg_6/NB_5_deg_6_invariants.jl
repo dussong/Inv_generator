@@ -1,10 +1,14 @@
+module NB5I 
+
+using NBodyIPs.FastPolys 
 using StaticArrays 
 using BenchmarkTools: @btime 
 
-include("fastpolys.jl") 
-using FastPolys 
+import NBodyIPs.tdegrees 
 
-
+tdegrees(::Val{5}) =
+          (@SVector [1, 2, 2, 3, 3, 4, 4, 5, 5, 6, ]),
+    (@SVector [0, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, ])
 
 # Primary invariants for NBody=5and deg=6 
  # : definitions at the beginning of the file 
@@ -187,7 +191,7 @@ const IS26 = Val((IS26_1,IS26_2,IS26_3,IS26_4,))
 const IS27 = Val((IS27_1,IS27_2,IS27_3,)) 
 
 
-function invariants_gen(x1::SVector{10, T}) where {T}
+function invariants(x1::SVector{10, T}) where {T}
    x2 = x1.*x1 
    x3 = x2.*x1 
    x4 = x3.*x1 
@@ -199,16 +203,16 @@ function invariants_gen(x1::SVector{10, T}) where {T}
 
 # Primary invariants for NBody=5and deg=6 
  # : what goes in the function for the evaluation 
-P1 = fpoly((x1,) , Main.P1) 
-P2 = fpoly((x1,x1,) , Main.P2) 
-P3 = fpoly((x2,) , Main.P3) 
-P4 = fpoly((x1,x1,x1,) , Main.P4) 
-P5 = fpoly((x3,) , Main.P5) 
-P6 = fpoly((x1,x1,x1,x1,) , Main.P6) 
-P7 = fpoly((x4,) , Main.P7) 
-P8 = fpoly((x1,x1,x1,x1,x1,) , Main.P8) 
-P9 = fpoly((x5,) , Main.P9) 
-P10 = fpoly((x6,) , Main.P10) 
+P1 = fpoly((x1,) , NB5I.P1) 
+P2 = fpoly((x1,x1,) , NB5I.P2) 
+P3 = fpoly((x2,) , NB5I.P3) 
+P4 = fpoly((x1,x1,x1,) , NB5I.P4) 
+P5 = fpoly((x3,) , NB5I.P5) 
+P6 = fpoly((x1,x1,x1,x1,) , NB5I.P6) 
+P7 = fpoly((x4,) , NB5I.P7) 
+P8 = fpoly((x1,x1,x1,x1,x1,) , NB5I.P8) 
+P9 = fpoly((x5,) , NB5I.P9) 
+P10 = fpoly((x6,) , NB5I.P10) 
 
 
 
@@ -219,33 +223,33 @@ P10 = fpoly((x6,) , Main.P10)
 
 # Irreducible secondaries for NBody=5and deg=6 
  # : what goes in the function for the evaluation 
-IS1 = fpoly((x2,x1,) , Main.IS1) 
-IS2 = fpoly((x1,x1,x1,) , Main.IS2) 
-IS3 = fpoly((x3,x1,) , Main.IS3) 
-IS4 = fpoly((x2,x2,) , Main.IS4) 
-IS5 = fpoly((x2,x1,x1,) , Main.IS5) 
-IS6 = fpoly((x2,x1,x1,) , Main.IS6) 
-IS7 = fpoly((x2,x1,x1,) , Main.IS7) 
-IS8 = fpoly((x4,x1,) , Main.IS8) 
-IS9 = fpoly((x3,x2,) , Main.IS9) 
-IS10 = fpoly((x3,x1,x1,) , Main.IS10) 
-IS11 = fpoly((x2,x2,x1,) , Main.IS11) 
-IS12 = fpoly((x3,x1,x1,) , Main.IS12) 
-IS13 = fpoly((x2,x2,x1,) , Main.IS13) 
-IS14 = fpoly((x3,x1,x1,) , Main.IS14) 
-IS15 = fpoly((x2,x1,x1,x1,) , Main.IS15) 
-IS16 = fpoly((x5,x1,) , Main.IS16) 
-IS17 = fpoly((x4,x2,) , Main.IS17) 
-IS18 = fpoly((x3,x3,) , Main.IS18) 
-IS19 = fpoly((x4,x1,x1,) , Main.IS19) 
-IS20 = fpoly((x3,x2,x1,) , Main.IS20) 
-IS21 = fpoly((x2,x2,x2,) , Main.IS21) 
-IS22 = fpoly((x4,x1,x1,) , Main.IS22) 
-IS23 = fpoly((x3,x2,x1,) , Main.IS23) 
-IS24 = fpoly((x4,x1,x1,) , Main.IS24) 
-IS25 = fpoly((x3,x1,x1,x1,) , Main.IS25) 
-IS26 = fpoly((x2,x2,x1,x1,) , Main.IS26) 
-IS27 = fpoly((x3,x2,x1,) , Main.IS27) 
+IS1 = fpoly((x2,x1,) , NB5I.IS1) 
+IS2 = fpoly((x1,x1,x1,) , NB5I.IS2) 
+IS3 = fpoly((x3,x1,) , NB5I.IS3) 
+IS4 = fpoly((x2,x2,) , NB5I.IS4) 
+IS5 = fpoly((x2,x1,x1,) , NB5I.IS5) 
+IS6 = fpoly((x2,x1,x1,) , NB5I.IS6) 
+IS7 = fpoly((x2,x1,x1,) , NB5I.IS7) 
+IS8 = fpoly((x4,x1,) , NB5I.IS8) 
+IS9 = fpoly((x3,x2,) , NB5I.IS9) 
+IS10 = fpoly((x3,x1,x1,) , NB5I.IS10) 
+IS11 = fpoly((x2,x2,x1,) , NB5I.IS11) 
+IS12 = fpoly((x3,x1,x1,) , NB5I.IS12) 
+IS13 = fpoly((x2,x2,x1,) , NB5I.IS13) 
+IS14 = fpoly((x3,x1,x1,) , NB5I.IS14) 
+IS15 = fpoly((x2,x1,x1,x1,) , NB5I.IS15) 
+IS16 = fpoly((x5,x1,) , NB5I.IS16) 
+IS17 = fpoly((x4,x2,) , NB5I.IS17) 
+IS18 = fpoly((x3,x3,) , NB5I.IS18) 
+IS19 = fpoly((x4,x1,x1,) , NB5I.IS19) 
+IS20 = fpoly((x3,x2,x1,) , NB5I.IS20) 
+IS21 = fpoly((x2,x2,x2,) , NB5I.IS21) 
+IS22 = fpoly((x4,x1,x1,) , NB5I.IS22) 
+IS23 = fpoly((x3,x2,x1,) , NB5I.IS23) 
+IS24 = fpoly((x4,x1,x1,) , NB5I.IS24) 
+IS25 = fpoly((x3,x1,x1,x1,) , NB5I.IS25) 
+IS26 = fpoly((x2,x2,x1,x1,) , NB5I.IS26) 
+IS27 = fpoly((x3,x2,x1,) , NB5I.IS27) 
 
 
 
@@ -292,7 +296,7 @@ return (@SVector [P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,]), (@SVector [SEC1,SEC2,SEC3,S
 
 
 
-function invariants_d_gen(x1::SVector{10, T}) where {T}
+function invariants_d(x1::SVector{10, T}) where {T}
    x2 = x1.*x1 
    x3 = x2.*x1 
    x4 = x3.*x1 
@@ -311,16 +315,16 @@ function invariants_d_gen(x1::SVector{10, T}) where {T}
 
 # Primary invariants for NBody=5and deg=6 
  # : what goes in the function for the derivatives 
-dP1 = fpoly_d((x1,),(dx1,) , Main.P1) 
-dP2 = fpoly_d((x1,x1,),(dx1,dx1,) , Main.P2) 
-dP3 = fpoly_d((x2,),(dx2,) , Main.P3) 
-dP4 = fpoly_d((x1,x1,x1,),(dx1,dx1,dx1,) , Main.P4) 
-dP5 = fpoly_d((x3,),(dx3,) , Main.P5) 
-dP6 = fpoly_d((x1,x1,x1,x1,),(dx1,dx1,dx1,dx1,) , Main.P6) 
-dP7 = fpoly_d((x4,),(dx4,) , Main.P7) 
-dP8 = fpoly_d((x1,x1,x1,x1,x1,),(dx1,dx1,dx1,dx1,dx1,) , Main.P8) 
-dP9 = fpoly_d((x5,),(dx5,) , Main.P9) 
-dP10 = fpoly_d((x6,),(dx6,) , Main.P10) 
+dP1 = fpoly_d((x1,),(dx1,) , NB5I.P1) 
+dP2 = fpoly_d((x1,x1,),(dx1,dx1,) , NB5I.P2) 
+dP3 = fpoly_d((x2,),(dx2,) , NB5I.P3) 
+dP4 = fpoly_d((x1,x1,x1,),(dx1,dx1,dx1,) , NB5I.P4) 
+dP5 = fpoly_d((x3,),(dx3,) , NB5I.P5) 
+dP6 = fpoly_d((x1,x1,x1,x1,),(dx1,dx1,dx1,dx1,) , NB5I.P6) 
+dP7 = fpoly_d((x4,),(dx4,) , NB5I.P7) 
+dP8 = fpoly_d((x1,x1,x1,x1,x1,),(dx1,dx1,dx1,dx1,dx1,) , NB5I.P8) 
+dP9 = fpoly_d((x5,),(dx5,) , NB5I.P9) 
+dP10 = fpoly_d((x6,),(dx6,) , NB5I.P10) 
 
 
 
@@ -331,64 +335,64 @@ dP10 = fpoly_d((x6,),(dx6,) , Main.P10)
 
 # Irreducible secondaries for NBody=5and deg=6 
  # : what goes in the function for the evaluation 
-IS1 = fpoly((x2,x1,) , Main.IS1) 
-IS2 = fpoly((x1,x1,x1,) , Main.IS2) 
-IS3 = fpoly((x3,x1,) , Main.IS3) 
-IS4 = fpoly((x2,x2,) , Main.IS4) 
-IS5 = fpoly((x2,x1,x1,) , Main.IS5) 
-IS6 = fpoly((x2,x1,x1,) , Main.IS6) 
-IS7 = fpoly((x2,x1,x1,) , Main.IS7) 
-IS8 = fpoly((x4,x1,) , Main.IS8) 
-IS9 = fpoly((x3,x2,) , Main.IS9) 
-IS10 = fpoly((x3,x1,x1,) , Main.IS10) 
-IS11 = fpoly((x2,x2,x1,) , Main.IS11) 
-IS12 = fpoly((x3,x1,x1,) , Main.IS12) 
-IS13 = fpoly((x2,x2,x1,) , Main.IS13) 
-IS14 = fpoly((x3,x1,x1,) , Main.IS14) 
-IS15 = fpoly((x2,x1,x1,x1,) , Main.IS15) 
-IS16 = fpoly((x5,x1,) , Main.IS16) 
-IS17 = fpoly((x4,x2,) , Main.IS17) 
-IS18 = fpoly((x3,x3,) , Main.IS18) 
-IS19 = fpoly((x4,x1,x1,) , Main.IS19) 
-IS20 = fpoly((x3,x2,x1,) , Main.IS20) 
-IS21 = fpoly((x2,x2,x2,) , Main.IS21) 
-IS22 = fpoly((x4,x1,x1,) , Main.IS22) 
-IS23 = fpoly((x3,x2,x1,) , Main.IS23) 
-IS24 = fpoly((x4,x1,x1,) , Main.IS24) 
-IS25 = fpoly((x3,x1,x1,x1,) , Main.IS25) 
-IS26 = fpoly((x2,x2,x1,x1,) , Main.IS26) 
-IS27 = fpoly((x3,x2,x1,) , Main.IS27) 
+IS1 = fpoly((x2,x1,) , NB5I.IS1) 
+IS2 = fpoly((x1,x1,x1,) , NB5I.IS2) 
+IS3 = fpoly((x3,x1,) , NB5I.IS3) 
+IS4 = fpoly((x2,x2,) , NB5I.IS4) 
+IS5 = fpoly((x2,x1,x1,) , NB5I.IS5) 
+IS6 = fpoly((x2,x1,x1,) , NB5I.IS6) 
+IS7 = fpoly((x2,x1,x1,) , NB5I.IS7) 
+IS8 = fpoly((x4,x1,) , NB5I.IS8) 
+IS9 = fpoly((x3,x2,) , NB5I.IS9) 
+IS10 = fpoly((x3,x1,x1,) , NB5I.IS10) 
+IS11 = fpoly((x2,x2,x1,) , NB5I.IS11) 
+IS12 = fpoly((x3,x1,x1,) , NB5I.IS12) 
+IS13 = fpoly((x2,x2,x1,) , NB5I.IS13) 
+IS14 = fpoly((x3,x1,x1,) , NB5I.IS14) 
+IS15 = fpoly((x2,x1,x1,x1,) , NB5I.IS15) 
+IS16 = fpoly((x5,x1,) , NB5I.IS16) 
+IS17 = fpoly((x4,x2,) , NB5I.IS17) 
+IS18 = fpoly((x3,x3,) , NB5I.IS18) 
+IS19 = fpoly((x4,x1,x1,) , NB5I.IS19) 
+IS20 = fpoly((x3,x2,x1,) , NB5I.IS20) 
+IS21 = fpoly((x2,x2,x2,) , NB5I.IS21) 
+IS22 = fpoly((x4,x1,x1,) , NB5I.IS22) 
+IS23 = fpoly((x3,x2,x1,) , NB5I.IS23) 
+IS24 = fpoly((x4,x1,x1,) , NB5I.IS24) 
+IS25 = fpoly((x3,x1,x1,x1,) , NB5I.IS25) 
+IS26 = fpoly((x2,x2,x1,x1,) , NB5I.IS26) 
+IS27 = fpoly((x3,x2,x1,) , NB5I.IS27) 
 
 
 # Irreducible secondaries for NBody=5and deg=6 
  # : what goes in the function for the derivatives 
-dIS1 = fpoly_d((x2,x1,),(dx2,dx1,) , Main.IS1) 
-dIS2 = fpoly_d((x1,x1,x1,),(dx1,dx1,dx1,) , Main.IS2) 
-dIS3 = fpoly_d((x3,x1,),(dx3,dx1,) , Main.IS3) 
-dIS4 = fpoly_d((x2,x2,),(dx2,dx2,) , Main.IS4) 
-dIS5 = fpoly_d((x2,x1,x1,),(dx2,dx1,dx1,) , Main.IS5) 
-dIS6 = fpoly_d((x2,x1,x1,),(dx2,dx1,dx1,) , Main.IS6) 
-dIS7 = fpoly_d((x2,x1,x1,),(dx2,dx1,dx1,) , Main.IS7) 
-dIS8 = fpoly_d((x4,x1,),(dx4,dx1,) , Main.IS8) 
-dIS9 = fpoly_d((x3,x2,),(dx3,dx2,) , Main.IS9) 
-dIS10 = fpoly_d((x3,x1,x1,),(dx3,dx1,dx1,) , Main.IS10) 
-dIS11 = fpoly_d((x2,x2,x1,),(dx2,dx2,dx1,) , Main.IS11) 
-dIS12 = fpoly_d((x3,x1,x1,),(dx3,dx1,dx1,) , Main.IS12) 
-dIS13 = fpoly_d((x2,x2,x1,),(dx2,dx2,dx1,) , Main.IS13) 
-dIS14 = fpoly_d((x3,x1,x1,),(dx3,dx1,dx1,) , Main.IS14) 
-dIS15 = fpoly_d((x2,x1,x1,x1,),(dx2,dx1,dx1,dx1,) , Main.IS15) 
-dIS16 = fpoly_d((x5,x1,),(dx5,dx1,) , Main.IS16) 
-dIS17 = fpoly_d((x4,x2,),(dx4,dx2,) , Main.IS17) 
-dIS18 = fpoly_d((x3,x3,),(dx3,dx3,) , Main.IS18) 
-dIS19 = fpoly_d((x4,x1,x1,),(dx4,dx1,dx1,) , Main.IS19) 
-dIS20 = fpoly_d((x3,x2,x1,),(dx3,dx2,dx1,) , Main.IS20) 
-dIS21 = fpoly_d((x2,x2,x2,),(dx2,dx2,dx2,) , Main.IS21) 
-dIS22 = fpoly_d((x4,x1,x1,),(dx4,dx1,dx1,) , Main.IS22) 
-dIS23 = fpoly_d((x3,x2,x1,),(dx3,dx2,dx1,) , Main.IS23) 
-dIS24 = fpoly_d((x4,x1,x1,),(dx4,dx1,dx1,) , Main.IS24) 
-dIS25 = fpoly_d((x3,x1,x1,x1,),(dx3,dx1,dx1,dx1,) , Main.IS25) 
-dIS26 = fpoly_d((x2,x2,x1,x1,),(dx2,dx2,dx1,dx1,) , Main.IS26) 
-dIS27 = fpoly_d((x3,x2,x1,),(dx3,dx2,dx1,) , Main.IS27) 
+dIS1 = fpoly_d((x2,x1,),(dx2,dx1,) , NB5I.IS1) 
+dIS2 = fpoly_d((x1,x1,x1,),(dx1,dx1,dx1,) , NB5I.IS2) 
+dIS3 = fpoly_d((x3,x1,),(dx3,dx1,) , NB5I.IS3) 
+dIS4 = fpoly_d((x2,x2,),(dx2,dx2,) , NB5I.IS4) 
+dIS5 = fpoly_d((x2,x1,x1,),(dx2,dx1,dx1,) , NB5I.IS5) 
+dIS6 = fpoly_d((x2,x1,x1,),(dx2,dx1,dx1,) , NB5I.IS6) 
+dIS7 = fpoly_d((x2,x1,x1,),(dx2,dx1,dx1,) , NB5I.IS7) 
+dIS8 = fpoly_d((x4,x1,),(dx4,dx1,) , NB5I.IS8) 
+dIS9 = fpoly_d((x3,x2,),(dx3,dx2,) , NB5I.IS9) 
+dIS10 = fpoly_d((x3,x1,x1,),(dx3,dx1,dx1,) , NB5I.IS10) 
+dIS11 = fpoly_d((x2,x2,x1,),(dx2,dx2,dx1,) , NB5I.IS11) 
+dIS12 = fpoly_d((x3,x1,x1,),(dx3,dx1,dx1,) , NB5I.IS12) 
+dIS13 = fpoly_d((x2,x2,x1,),(dx2,dx2,dx1,) , NB5I.IS13) 
+dIS14 = fpoly_d((x3,x1,x1,),(dx3,dx1,dx1,) , NB5I.IS14) 
+dIS15 = fpoly_d((x2,x1,x1,x1,),(dx2,dx1,dx1,dx1,) , NB5I.IS15) 
+dIS16 = fpoly_d((x5,x1,),(dx5,dx1,) , NB5I.IS16) 
+dIS17 = fpoly_d((x4,x2,),(dx4,dx2,) , NB5I.IS17) 
+dIS18 = fpoly_d((x3,x3,),(dx3,dx3,) , NB5I.IS18) 
+dIS19 = fpoly_d((x4,x1,x1,),(dx4,dx1,dx1,) , NB5I.IS19) 
+dIS20 = fpoly_d((x3,x2,x1,),(dx3,dx2,dx1,) , NB5I.IS20) 
+dIS21 = fpoly_d((x2,x2,x2,),(dx2,dx2,dx2,) , NB5I.IS21) 
+dIS22 = fpoly_d((x4,x1,x1,),(dx4,dx1,dx1,) , NB5I.IS22) 
+dIS23 = fpoly_d((x3,x2,x1,),(dx3,dx2,dx1,) , NB5I.IS23) 
+dIS24 = fpoly_d((x4,x1,x1,),(dx4,dx1,dx1,) , NB5I.IS24) 
+dIS25 = fpoly_d((x3,x1,x1,x1,),(dx3,dx1,dx1,dx1,) , NB5I.IS25) 
+dIS26 = fpoly_d((x2,x2,x1,x1,),(dx2,dx2,dx1,dx1,) , NB5I.IS26) 
+dIS27 = fpoly_d((x3,x2,x1,),(dx3,dx2,dx1,) , NB5I.IS27) 
 
 
 
@@ -435,7 +439,7 @@ return (dP1,dP2,dP3,dP4,dP5,dP6,dP7,dP8,dP9,dP10,), (dSEC1,dSEC2,dSEC3,dSEC4,dSE
 
 
 
-function invariants_ed_gen(x1::SVector{10, T}) where {T}
+function invariants_ed(x1::SVector{10, T}) where {T}
    x2 = x1.*x1 
    x3 = x2.*x1 
    x4 = x3.*x1 
@@ -454,16 +458,16 @@ function invariants_ed_gen(x1::SVector{10, T}) where {T}
 
 # Primary invariants for NBody=5and deg=6 
  # : what goes in the function for the evaluation and derivatives 
-P1, dP1 = fpoly_ed((x1,),(dx1,) , Main.P1) 
-P2, dP2 = fpoly_ed((x1,x1,),(dx1,dx1,) , Main.P2) 
-P3, dP3 = fpoly_ed((x2,),(dx2,) , Main.P3) 
-P4, dP4 = fpoly_ed((x1,x1,x1,),(dx1,dx1,dx1,) , Main.P4) 
-P5, dP5 = fpoly_ed((x3,),(dx3,) , Main.P5) 
-P6, dP6 = fpoly_ed((x1,x1,x1,x1,),(dx1,dx1,dx1,dx1,) , Main.P6) 
-P7, dP7 = fpoly_ed((x4,),(dx4,) , Main.P7) 
-P8, dP8 = fpoly_ed((x1,x1,x1,x1,x1,),(dx1,dx1,dx1,dx1,dx1,) , Main.P8) 
-P9, dP9 = fpoly_ed((x5,),(dx5,) , Main.P9) 
-P10, dP10 = fpoly_ed((x6,),(dx6,) , Main.P10) 
+P1, dP1 = fpoly_ed((x1,),(dx1,) , NB5I.P1) 
+P2, dP2 = fpoly_ed((x1,x1,),(dx1,dx1,) , NB5I.P2) 
+P3, dP3 = fpoly_ed((x2,),(dx2,) , NB5I.P3) 
+P4, dP4 = fpoly_ed((x1,x1,x1,),(dx1,dx1,dx1,) , NB5I.P4) 
+P5, dP5 = fpoly_ed((x3,),(dx3,) , NB5I.P5) 
+P6, dP6 = fpoly_ed((x1,x1,x1,x1,),(dx1,dx1,dx1,dx1,) , NB5I.P6) 
+P7, dP7 = fpoly_ed((x4,),(dx4,) , NB5I.P7) 
+P8, dP8 = fpoly_ed((x1,x1,x1,x1,x1,),(dx1,dx1,dx1,dx1,dx1,) , NB5I.P8) 
+P9, dP9 = fpoly_ed((x5,),(dx5,) , NB5I.P9) 
+P10, dP10 = fpoly_ed((x6,),(dx6,) , NB5I.P10) 
 
 
 
@@ -474,33 +478,33 @@ P10, dP10 = fpoly_ed((x6,),(dx6,) , Main.P10)
 
 # Irreducible secondaries for NBody=5and deg=6 
  # : what goes in the function for the evaluation and derivatives 
-IS1, dIS1 = fpoly_ed((x2,x1,),(dx2,dx1,) , Main.IS1) 
-IS2, dIS2 = fpoly_ed((x1,x1,x1,),(dx1,dx1,dx1,) , Main.IS2) 
-IS3, dIS3 = fpoly_ed((x3,x1,),(dx3,dx1,) , Main.IS3) 
-IS4, dIS4 = fpoly_ed((x2,x2,),(dx2,dx2,) , Main.IS4) 
-IS5, dIS5 = fpoly_ed((x2,x1,x1,),(dx2,dx1,dx1,) , Main.IS5) 
-IS6, dIS6 = fpoly_ed((x2,x1,x1,),(dx2,dx1,dx1,) , Main.IS6) 
-IS7, dIS7 = fpoly_ed((x2,x1,x1,),(dx2,dx1,dx1,) , Main.IS7) 
-IS8, dIS8 = fpoly_ed((x4,x1,),(dx4,dx1,) , Main.IS8) 
-IS9, dIS9 = fpoly_ed((x3,x2,),(dx3,dx2,) , Main.IS9) 
-IS10, dIS10 = fpoly_ed((x3,x1,x1,),(dx3,dx1,dx1,) , Main.IS10) 
-IS11, dIS11 = fpoly_ed((x2,x2,x1,),(dx2,dx2,dx1,) , Main.IS11) 
-IS12, dIS12 = fpoly_ed((x3,x1,x1,),(dx3,dx1,dx1,) , Main.IS12) 
-IS13, dIS13 = fpoly_ed((x2,x2,x1,),(dx2,dx2,dx1,) , Main.IS13) 
-IS14, dIS14 = fpoly_ed((x3,x1,x1,),(dx3,dx1,dx1,) , Main.IS14) 
-IS15, dIS15 = fpoly_ed((x2,x1,x1,x1,),(dx2,dx1,dx1,dx1,) , Main.IS15) 
-IS16, dIS16 = fpoly_ed((x5,x1,),(dx5,dx1,) , Main.IS16) 
-IS17, dIS17 = fpoly_ed((x4,x2,),(dx4,dx2,) , Main.IS17) 
-IS18, dIS18 = fpoly_ed((x3,x3,),(dx3,dx3,) , Main.IS18) 
-IS19, dIS19 = fpoly_ed((x4,x1,x1,),(dx4,dx1,dx1,) , Main.IS19) 
-IS20, dIS20 = fpoly_ed((x3,x2,x1,),(dx3,dx2,dx1,) , Main.IS20) 
-IS21, dIS21 = fpoly_ed((x2,x2,x2,),(dx2,dx2,dx2,) , Main.IS21) 
-IS22, dIS22 = fpoly_ed((x4,x1,x1,),(dx4,dx1,dx1,) , Main.IS22) 
-IS23, dIS23 = fpoly_ed((x3,x2,x1,),(dx3,dx2,dx1,) , Main.IS23) 
-IS24, dIS24 = fpoly_ed((x4,x1,x1,),(dx4,dx1,dx1,) , Main.IS24) 
-IS25, dIS25 = fpoly_ed((x3,x1,x1,x1,),(dx3,dx1,dx1,dx1,) , Main.IS25) 
-IS26, dIS26 = fpoly_ed((x2,x2,x1,x1,),(dx2,dx2,dx1,dx1,) , Main.IS26) 
-IS27, dIS27 = fpoly_ed((x3,x2,x1,),(dx3,dx2,dx1,) , Main.IS27) 
+IS1, dIS1 = fpoly_ed((x2,x1,),(dx2,dx1,) , NB5I.IS1) 
+IS2, dIS2 = fpoly_ed((x1,x1,x1,),(dx1,dx1,dx1,) , NB5I.IS2) 
+IS3, dIS3 = fpoly_ed((x3,x1,),(dx3,dx1,) , NB5I.IS3) 
+IS4, dIS4 = fpoly_ed((x2,x2,),(dx2,dx2,) , NB5I.IS4) 
+IS5, dIS5 = fpoly_ed((x2,x1,x1,),(dx2,dx1,dx1,) , NB5I.IS5) 
+IS6, dIS6 = fpoly_ed((x2,x1,x1,),(dx2,dx1,dx1,) , NB5I.IS6) 
+IS7, dIS7 = fpoly_ed((x2,x1,x1,),(dx2,dx1,dx1,) , NB5I.IS7) 
+IS8, dIS8 = fpoly_ed((x4,x1,),(dx4,dx1,) , NB5I.IS8) 
+IS9, dIS9 = fpoly_ed((x3,x2,),(dx3,dx2,) , NB5I.IS9) 
+IS10, dIS10 = fpoly_ed((x3,x1,x1,),(dx3,dx1,dx1,) , NB5I.IS10) 
+IS11, dIS11 = fpoly_ed((x2,x2,x1,),(dx2,dx2,dx1,) , NB5I.IS11) 
+IS12, dIS12 = fpoly_ed((x3,x1,x1,),(dx3,dx1,dx1,) , NB5I.IS12) 
+IS13, dIS13 = fpoly_ed((x2,x2,x1,),(dx2,dx2,dx1,) , NB5I.IS13) 
+IS14, dIS14 = fpoly_ed((x3,x1,x1,),(dx3,dx1,dx1,) , NB5I.IS14) 
+IS15, dIS15 = fpoly_ed((x2,x1,x1,x1,),(dx2,dx1,dx1,dx1,) , NB5I.IS15) 
+IS16, dIS16 = fpoly_ed((x5,x1,),(dx5,dx1,) , NB5I.IS16) 
+IS17, dIS17 = fpoly_ed((x4,x2,),(dx4,dx2,) , NB5I.IS17) 
+IS18, dIS18 = fpoly_ed((x3,x3,),(dx3,dx3,) , NB5I.IS18) 
+IS19, dIS19 = fpoly_ed((x4,x1,x1,),(dx4,dx1,dx1,) , NB5I.IS19) 
+IS20, dIS20 = fpoly_ed((x3,x2,x1,),(dx3,dx2,dx1,) , NB5I.IS20) 
+IS21, dIS21 = fpoly_ed((x2,x2,x2,),(dx2,dx2,dx2,) , NB5I.IS21) 
+IS22, dIS22 = fpoly_ed((x4,x1,x1,),(dx4,dx1,dx1,) , NB5I.IS22) 
+IS23, dIS23 = fpoly_ed((x3,x2,x1,),(dx3,dx2,dx1,) , NB5I.IS23) 
+IS24, dIS24 = fpoly_ed((x4,x1,x1,),(dx4,dx1,dx1,) , NB5I.IS24) 
+IS25, dIS25 = fpoly_ed((x3,x1,x1,x1,),(dx3,dx1,dx1,dx1,) , NB5I.IS25) 
+IS26, dIS26 = fpoly_ed((x2,x2,x1,x1,),(dx2,dx2,dx1,dx1,) , NB5I.IS26) 
+IS27, dIS27 = fpoly_ed((x3,x2,x1,),(dx3,dx2,dx1,) , NB5I.IS27) 
 
 
 
@@ -576,4 +580,6 @@ IS27, dIS27 = fpoly_ed((x3,x2,x1,),(dx3,dx2,dx1,) , Main.IS27)
 
 
 return (@SVector [P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,]), (@SVector [SEC1,SEC2,SEC3,SEC4,SEC5,SEC6,SEC7,SEC8,SEC9,SEC10,SEC11,SEC12,SEC13,SEC14,SEC15,SEC16,SEC17,SEC18,SEC19,SEC20,SEC21,SEC22,SEC23,SEC24,SEC25,SEC26,SEC27,SEC28,SEC29,SEC30,SEC31,]), (@SVector [dP1,dP2,dP3,dP4,dP5,dP6,dP7,dP8,dP9,dP10,]), (@SVector [dSEC1,dSEC2,dSEC3,dSEC4,dSEC5,dSEC6,dSEC7,dSEC8,dSEC9,dSEC10,dSEC11,dSEC12,dSEC13,dSEC14,dSEC15,dSEC16,dSEC17,dSEC18,dSEC19,dSEC20,dSEC21,dSEC22,dSEC23,dSEC24,dSEC25,dSEC26,dSEC27,dSEC28,dSEC29,dSEC30,dSEC31,])
- end
+ end 
+
+end

@@ -1,4 +1,4 @@
-function invariants_Q10_check(x)
+function invariants_check(x)
 prim=zeros(10,1);
 pv=zeros(27,1);
 

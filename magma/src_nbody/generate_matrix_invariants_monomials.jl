@@ -3,7 +3,7 @@ using NBodyIPs
 using JLD
 
 include(homedir() * "/.julia/v0.6/NBodyIPs/magma/src_jl/invariants_generator.jl")
-include(homedir() * "/.julia/v0.6/NBodyIPs/magma/src_jl/misc.jl")
+# include(homedir() * "/.julia/v0.6/NBodyIPs/src/misc.jl")
 include(homedir() * "/.julia/v0.6/NBodyIPs/magma/src_jl/inv_monomials.jl")
 
 # Generate monomials with weights: for primaries, irreducible secondaries, and secondaries
