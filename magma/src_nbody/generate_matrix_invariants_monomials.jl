@@ -1,19 +1,23 @@
 # This code generates the matrix of basis change between the tuples in terms of the invariants and tuples of monomials.
-using NBodyIPs
 using JLD
 
-include(homedir() * "/.julia/v0.6/NBodyIPs/magma/src_jl/invariants_generator.jl")
+# include(homedir() * "/.julia/v0.6/NBodyIPs/magma/src_jl/invariants_generator.jl")
+include(homedir() * "/Gits/InvariantsGenerator/magma/src_nbody/invariants_generator.jl")
 # include(homedir() * "/.julia/v0.6/NBodyIPs/src/misc.jl")
-include(homedir() * "/.julia/v0.6/NBodyIPs/magma/src_jl/inv_monomials.jl")
+# include(homedir() * "/.julia/v0.6/NBodyIPs/magma/src_jl/inv_monomials.jl")
+include(homedir() * "/Gits/InvariantsGenerator/magma/src_nbody/inv_monomials.jl")
+
 
 # Generate monomials with weights: for primaries, irreducible secondaries, and secondaries
 NBody = 5;
-Deg = 10;
+Deg = 6;
 NBlengths = Int(NBody*(NBody-1)/2)
 
-filenameirrsecdata = homedir() * "/.julia/v0.6/NBodyIPs/magma/data/NB_$NBody""_deg_$Deg""/NB_$NBody"*"_deg_$Deg"*"_irr_invariants.jl";
-filenameprimdata = homedir() * "/.julia/v0.6/NBodyIPs/magma/data/NB_$NBody""_deg_$Deg""/NB_$NBody"*"_deg_$Deg"*"_prim_invariants.jl";
-filenamesec = homedir() * "/.julia/v0.6/NBodyIPs/magma/data/NB_$NBody"*"_deg_$Deg"*"/NB_$NBody"*"_deg_$Deg"*"_relations_invariants.jl";
+include(homedir() * "/Gits/InvariantsGenerator/magma/src_nbody/misc.jl")
+
+filenameirrsecdata = homedir() * "/Gits/InvariantsGenerator/magma/data/NB_$NBody""_deg_$Deg""/NB_$NBody"*"_deg_$Deg"*"_irr_invariants.jl";
+filenameprimdata = homedir() * "/Gits/InvariantsGenerator/magma/data/NB_$NBody""_deg_$Deg""/NB_$NBody"*"_deg_$Deg"*"_prim_invariants.jl";
+filenamesec = homedir() * "/Gits/InvariantsGenerator/magma/data/NB_$NBody"*"_deg_$Deg"*"/NB_$NBody"*"_deg_$Deg"*"_relations_invariants.jl";
 
 prefsec = "SEC" #prefix for the secondaries
 prefirrsec = "IS" #prefix for the irreducible secondaries
@@ -72,7 +76,7 @@ end
 SecMonPol
 
 M = Int(NBody*(NBody-1)/2)
-InvTup = NBodyIPs.gen_tuples(NBody,Deg)
+InvTup = gen_tuples(NBody,Deg)
 @show length(InvTup)
 
 maxpower = zeros(Int,M,1)

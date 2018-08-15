@@ -98,3 +98,78 @@ simplex_permutations(x::SVector{6}) =
 
 simplex_permutations(x::SVector{10}) =
    simplex_permutations(Val(5), x)
+
+# From polynomials
+
+"""
+`tdegrees(::Val{N})` where `N` is the body-order returns a
+tuple of polynomial <total degrees> corresponding to the degrees of the
+individual invariants.  E.g. for 3-body, the invariants are
+r1 + r2 + r3, r1 r2 + r1 r3 + r2 r3, r1 r2 r3, and the corresponding
+degrees are `(1, 2, 3)`.
+"""
+function tdegrees end
+
+tdegrees(::Val{5}) =
+      (@SVector [ 1, 2, 2, 3, 3, 4, 4, 5, 5, 6 ]),
+      (@SVector [ 0,
+                  3, 3,
+                  4, 4, 4, 4, 4,
+                  5, 5, 5, 5, 5, 5, 5, 5,
+                  6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+                  7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 ])
+
+const Tup{M} = NTuple{M, Int}
+
+nedges(::Val{N}) where {N} = (N*(N-1)) ÷ 2
+
+"""
+compute the total degree of the polynomial represented by α.
+Note that `M = K-1` where `K` is the tuple length while
+`M` is the number of edges.
+"""
+function tdegree(α)
+   K = length(α)
+   degs1, degs2 = tdegrees(Val(edges2bo(K-1)))
+   # primary invariants
+   d = sum(α[j] * degs1[j] for j = 1:K-1)
+   # secondary invariants
+   d += degs2[1+α[end]]
+   return d
+end
+
+
+gen_tuples(N, deg; purify = false,
+                   tuplebound = (α -> (0 < tdegree(α) <= deg))) =
+   gen_tuples(Val(N), Val(nedges(Val(N))+1), deg, purify, tuplebound)
+
+function gen_tuples(vN::Val{N}, vK::Val{K}, deg, purify, tuplebound) where {N, K}
+   A = Tup{K}[]
+   degs1, degs2 = tdegrees(vN)
+
+   α = @MVector zeros(Int, K)
+   α[1] = 1
+   lastinc = 1
+
+   while true
+      admit_tuple = false
+      if α[end] <= length(degs2)-1
+         if tuplebound(α)
+            admit_tuple = true
+         end
+      end
+      if admit_tuple
+         push!(A, SVector(α).data)
+         α[1] += 1
+         lastinc = 1
+      else
+         if lastinc == K
+            return A
+         end
+         α[1:lastinc] = 0
+         α[lastinc+1] += 1
+         lastinc += 1
+      end
+   end
+   error("I shouldn't be here!")
+end
