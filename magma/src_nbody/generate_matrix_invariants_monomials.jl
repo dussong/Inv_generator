@@ -133,15 +133,24 @@ for deg=1:Deg
     @assert length(MonB)==length(InvB)
 
     MBasisChangeDeg = zeros(Float64,length(MonB),length(MonB))
-    for i=1:length(InvTupSelect)
-        InviMon = Mon(InvB[i])
-        InviCoef = Coef(InvB[i])
-        for j=1:length(MonB)
-            if (MonB[j] in InviMon)
-                indj = find([MonB[j] == InviMon[k] for k=1:length(InviMon)])
-                @assert length(indj) == 1
-                MBasisChangeDeg[i,j] = InviCoef[indj[1]]
-            end
+    # for i=1:length(InvTupSelect)
+    #     InviMon = Mon(InvB[i])
+    #     InviCoef = Coef(InvB[i])
+    #     for j=1:length(MonB)
+    #         if (MonB[j] in InviMon)
+    #             indj = find([MonB[j] == InviMon[k] for k=1:length(InviMon)])
+    #             @assert length(indj) == 1
+    #             MBasisChangeDeg[i,j] = InviCoef[indj[1]]
+    #         end
+    #     end
+    # end
+    for i=1:length(InvTupSelect) #for each of the inv tuple
+        InviMon = Mon(InvB[i]) #get monomials of the inv tuple
+        InviCoef = Coef(InvB[i]) #get coef of the inv tuple
+        for (j,InviMonj) in enumerate(InviMon)
+            indj = find(InviMonj == MonB[k] for k=1:length(MonB))
+            @assert length(indj)==1
+            MBasisChangeDeg[i,indj[1]] = InviCoef[j]
         end
     end
     push!(BasisChange,MBasisChangeDeg)
