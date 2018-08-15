@@ -110,9 +110,58 @@ for i=1:length(InvTup)
 end
 InvMonPoly
 
+# Degrees of the functions depending on the invariants.
+InvMonPolyDeg = [sum(Mon(InvMonPoly[i])[1]) for i=1:length(InvMonPoly)]
+
 MonBasis = Mon(generate_rep_mon(NBlengths,Deg))
+
+MonBasisDeg = [sum(MonBasis[i]) for i=1:length(MonBasis)]
 unique(MonBasis)
 @assert length(InvTup) == length(MonBasis)
+
+BasisChange = Matrix{Float64}[]
+InvBasisChange = Matrix{Float64}[]
+MonBasisInvTup = []
+
+for deg=1:Deg
+    IndMonDeg = find( x->(x == deg), MonBasisDeg)
+    IndInvDef = find( x->(x == deg), InvMonPolyDeg)
+
+    MonB = MonBasis[IndMonDeg]
+    InvB = InvMonPoly[IndInvDef]
+    InvTupSelect = InvTup[IndInvDef]
+    @assert length(MonB)==length(InvB)
+
+    MBasisChangeDeg = zeros(Float64,length(MonB),length(MonB))
+    for i=1:length(InvTupSelect)
+        InviMon = Mon(InvB[i])
+        InviCoef = Coef(InvB[i])
+        for j=1:length(MonB)
+            if (MonB[j] in InviMon)
+                indj = find([MonB[j] == InviMon[k] for k=1:length(InviMon)])
+                @assert length(indj) == 1
+                MBasisChangeDeg[i,j] = InviCoef[indj[1]]
+            end
+        end
+    end
+    push!(BasisChange,MBasisChangeDeg)
+    push!(InvBasisChange,inv(MBasisChangeDeg))
+
+    for i=1:length(MonB)
+        coeflist = Float64[]
+        monlist = []
+        nonzeroind = find( x->(abs(x) >1e-10), inv(MBasisChangeDeg)[i,:])
+        append!(coeflist, inv(MBasisChangeDeg)[i,nonzeroind])
+        append!(monlist,[Mon(InvB[j]) for j in nonzeroind])
+
+        push!(MonBasisInvTup,[monlist,coeflist])
+    end
+    print(".")
+
+end
+
+MonBasisInvTup
+
 
 
 M_basis_change = zeros(Float64,length(MonBasis),length(MonBasis))
