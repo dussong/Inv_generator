@@ -33,7 +33,8 @@ R0pre := PrimaryInvariants(Rpre);
 Rpre;
 R;
 // Enforce to have only pure symmetrized monomials
-R0 := [&+[(LeadingMonomial(R0pre[i]))^g:g in Group(Rpre)]: i in [1..#R0pre]];
+// R0 := [&+[(LeadingMonomial(R0pre[i]))^g:g in Group(Rpre)]: i in [1..#R0pre]];
+R0 := [&+[(Monomials(R0pre[i])[#(Monomials(R0pre[i]))])^g:g in Group(Rpre)]: i in [1..#R0pre]];
 
 R`PrimaryInvariants := R0;
 
