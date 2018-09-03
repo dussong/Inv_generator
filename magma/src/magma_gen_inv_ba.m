@@ -12,18 +12,30 @@ SetLogFile(logfile: Overwrite := true);
 
 //Define the field
 K := RationalField();
+Kb := RationalField();
 //Define the symmetry group (line that can vary)
 G:= GROUP_DEF;
+Gb := GROUP_DEF;
 // Examples:
 // G := PermutationGroup<6| (2,3,1)(5,6,4)>; //4B
+// Gb := PermutationGroup<6| (2,3,1)(5,6,4)>;
 // G := PermutationGroup<10 | (2,3)(5,6)(10,9), (2,3,4)(5,6,7)(8,10,9), (1,3,4,2)(5,6,10,9)(7,8)>; //5B
 
 //Define the invariant ring
-R := InvariantRing(G, K);
+Rpre := InvariantRing(G, K);
+Rpre;
+
+R := InvariantRing(Gb, Kb);
 R;
 
 // Compute the primary invariants
-R0 := PrimaryInvariants(R);
+R0pre := PrimaryInvariants(Rpre);
+Rpre;
+R;
+// Enforce to have only pure symmetrized monomials
+R0 := [&+[(LeadingMonomial(R0pre[i]))^g:g in Group(Rpre)]: i in [1..#R0pre]];
+
+R`PrimaryInvariants := R0;
 
 // Construct a list of the group elements
 printf "nb_group_elements_begin\n";
