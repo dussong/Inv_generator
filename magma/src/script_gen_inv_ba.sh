@@ -43,7 +43,7 @@ ECHO $fn_jl_group_elts
 if [ $MAGMA_RUN -eq 1 ]
 then
 #put the paramters into the input file
-cp magma_gen_inv_ba.m magma_run.m;
+cp $MAGMA_RUN_DIR magma_run.m;
 
 ECHO $GROUP_DEF
 
