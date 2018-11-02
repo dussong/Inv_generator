@@ -131,5 +131,28 @@ printf "degrees_secondaries_begin\n";
 [TotalDegree(R1[i]): i in [1..#R1]];
 printf "degrees_secondaries_end\n";
 
+// Display the monomials of the secondary invariants
+printf "secondary_inv_mon_list_begin\n";
+for i:=1 to #R1 do
+  printf "secondary[";
+  printf IntegerToString(i);
+  printf "]=";
+  Exponents(LeadingMonomial(R1[i]));
+  printf "\n";
+end for;
+printf "secondary_inv_mon_list_end\n";
+
+// // Display the rtdegrees of the secondary invariants
+// printf "secondary_rtdegrees_list_begin\n";
+// for i:=1 to #R1 do
+//   printf "sec_rt[";
+//   printf IntegerToString(i);
+//   printf "]=";
+//   [Exponents(Monomials(R1[i])[j]):j in [1..#Monomials(R1[i])]];
+//   // [ Degree(R1[i],j):j in [1..#R0]];
+//   printf "\n";
+// end for;
+// printf "secondary_inv_mon_list_end\n";
+
 
 exit;
