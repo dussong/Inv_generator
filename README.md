@@ -9,4 +9,4 @@ Then run `main_run.sh`.
 
 The folder `src_nbody` contains the invariant computation for the permutation of particles. `NBody` corresponds to the number of particles.
 
-After the run, the results (invariants and Julia code) should be in the indicated folder.
+After the run, the results (invariants and Julia code) should be in the indicated folder (e.g. `data`).
