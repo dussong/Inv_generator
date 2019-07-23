@@ -1,4 +1,4 @@
-# TO DO: Not automatized yet.
+#
 
 1 - run generate_invariants.sh with wanted Nbody and degree parameters.
 This creates files in data
