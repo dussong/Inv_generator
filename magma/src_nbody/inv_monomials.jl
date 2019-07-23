@@ -1,4 +1,4 @@
-using Combinatorics, StaticArrays
+using Combinatorics, StaticArrays, NBodyIPs
 # , NBodyIPs
 # include(homedir() * "/.julia/v0.6/NBodyIPs/src/misc.jl")
 include("invariants_generator.jl")
@@ -282,6 +282,11 @@ end
 # mon = SVector(1,2,0,0,0,0)
 # length(mon)
 # mon_repr(mon)
+#
+# NB_4B.simplex_permutations(mon)
+#
+# collect(permutations([1,2,3]))
+# 2
 #
 # listmon = MonList([mon, mon])
 # length(listmon)

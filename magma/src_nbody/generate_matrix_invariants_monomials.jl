@@ -6,7 +6,7 @@ include(homedir() * "/Gits/InvariantsGenerator/magma/src_nbody/invariants_genera
 include(homedir() * "/Gits/InvariantsGenerator/magma/src_nbody/inv_monomials.jl")
 include(homedir() * "/Gits/InvariantsGenerator/magma/src_nbody/misc.jl")
 
-NBody = 5;
+NBody = 3;
 Deg = 6; #maximal total degree
 M = Int(NBody*(NBody-1)/2)
 
